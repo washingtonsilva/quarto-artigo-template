@@ -1,5 +1,11 @@
 # quarto-artigo-template
 
+Este repositório é um template para a criação de artigos científicos com o [Quarto](https://quarto.org/), desenvolvido no âmbito da disciplina **Introdução à Ciência de Dados** do Mestrado Profissional em Administração do IFMG — Campus Formiga.
+
+O objetivo é duplo: por um lado, apresentar uma estrutura funcional de documento reprodutível que integra texto, código R e saída formatada em PDF via LaTeX; por outro, servir de pretexto para a prática de um fluxo de trabalho com **Git** e **GitHub** — desde a criação do repositório a partir de um template até o versionamento das alterações realizadas.
+
+O documento de exemplo estima o Modelo de Precificação de Ativos de Capital (CAPM) como um modelo de regressão linear simples, contextualizando o template na área de concentração em **Finanças** do programa.
+
 ## Pré-requisitos
 
 Para utilizar este template, os seguintes softwares devem estar instalados e funcionais:
@@ -191,3 +197,117 @@ keep-tex: true
 ```
 
 `editor: source` instrui o RStudio a abrir o arquivo no modo de edição de código-fonte. `keep-tex: true` preserva o arquivo `.tex` intermediário gerado durante a compilação, o que ajuda a depurar problemas de formatação no LaTeX.
+
+
+## Exercício: Inspecionando Alterações com `git diff`
+
+Até agora você praticou os comandos essenciais para sincronizar seu repositório local com o GitHub: `git add`, `git commit` e `git push`. Este exercício introduz o comando `git diff`, que permite inspecionar exatamente o que foi alterado em um arquivo antes de registrar as mudanças com um commit.
+
+### O que é `git diff`?
+
+O comando `git diff` compara o estado atual dos arquivos no seu diretório de trabalho com o último commit registrado, exibindo linha a linha o que foi removido e o que foi adicionado. Na saída do comando:
+
+- linhas precedidas por `-` (em vermelho no terminal) indicam o conteúdo que existia antes;
+- linhas precedidas por `+` (em verde no terminal) indicam o conteúdo novo que substituiu o anterior;
+- linhas sem prefixo são o contexto ao redor da alteração e não foram modificadas.
+
+Executar `git diff` antes de `git add` é uma boa prática: permite revisar as mudanças e confirmar que apenas o que se deseja está sendo versionado.
+
+### Tarefa
+
+Abra o arquivo `01_capm.qmd` no RStudio e faça as duas alterações abaixo no cabeçalho YAML:
+
+**1.** Substitua `Seu Nome` pelo seu nome completo:
+
+```yaml
+# antes
+author: Seu Nome
+
+# depois
+author: João Silva
+```
+
+**2.** Altere o espaçamento entre linhas de `1.0` para `1.5`:
+
+```yaml
+# antes
+linestretch: 1.0
+
+# depois
+linestretch: 1.5
+```
+
+Salve o arquivo sem fechar o RStudio.
+
+### Executando `git diff`
+
+No terminal do RStudio (aba **Terminal**), execute:
+
+```bash
+git diff 01_capm.qmd
+```
+
+### Interpretando a saída
+
+A saída esperada será semelhante a:
+
+```diff
+diff --git a/01_capm.qmd b/01_capm.qmd
+--- a/01_capm.qmd
++++ b/01_capm.qmd
+@@ -1,14 +1,14 @@
+ ---
+ title: "Estimação do Modelo CAPM"
+ subtitle: "Working Paper"
+-author: Seu Nome
++author: João Silva
+ lang: pt
+ format:
+   pdf:
+     documentclass: article
+     papersize: a4paper
+     fontsize: 12pt
+-    linestretch: 1.0
++    linestretch: 1.5
+     number-sections: true
+     indent: true
+```
+
+Lendo a saída de cima para baixo:
+
+- `--- a/01_capm.qmd` e `+++ b/01_capm.qmd` identificam o arquivo comparado: `a/` é a versão do último commit, `b/` é a versão atual no disco.
+- `@@ -1,14 +1,14 @@` indica o intervalo de linhas exibido: antes e depois da alteração, o trecho vai da linha 1 até a linha 14.
+- As duas linhas com `-` mostram exatamente o que existia no commit anterior.
+- As duas linhas com `+` mostram o que passou a existir após suas edições.
+- As demais linhas, sem prefixo, são o contexto — estão ali apenas para situar as mudanças e não foram tocadas.
+
+### Boas práticas para mensagens de commit em escrita acadêmica
+
+A mensagem de commit é o registro permanente do que foi feito e por quê. Em projetos de desenvolvimento de software, é comum o uso de prefixos como `feat:` ou `fix:` — uma convenção que não se aplica naturalmente ao contexto acadêmico. Para artigos e dissertações, o que importa é que o histórico de commits narre com clareza a evolução do documento.
+
+Algumas orientações práticas:
+
+- **Comece com um verbo no infinitivo** que descreva a ação realizada: *adiciona*, *revisa*, *corrige*, *completa*, *reestrutura*, *atualiza*.
+- **Identifique o que foi alterado** — a seção, o elemento ou o arquivo afetado. O objetivo é que qualquer pessoa (ou você mesmo, semanas depois) entenda o que aconteceu apenas lendo o log.
+- **Seja específico, mas conciso.** Uma linha bem escrita é suficiente na maioria dos casos.
+- **Evite mensagens vagas** como "atualiza arquivo", "correções" ou "mudanças diversas" — elas não acrescentam nenhuma informação ao histórico.
+
+Exemplos de boas mensagens para o contexto acadêmico:
+
+```
+adiciona rascunho da seção de revisão da literatura
+revisa metodologia: inclui equação do modelo CAPM
+corrige referência de Sharpe (1964) no arquivo .bib
+atualiza tabela de estatísticas descritivas
+completa seção de conclusões
+```
+
+### Registrando as alterações
+
+Após verificar que a saída do `git diff` corresponde ao esperado, registre as alterações seguindo as boas práticas acima:
+
+```bash
+git add 01_capm.qmd
+git commit -m "personaliza autor e espaçamento do documento"
+git push origin main
+```
