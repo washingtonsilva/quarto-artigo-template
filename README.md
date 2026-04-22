@@ -343,3 +343,33 @@ git add 01_capm.qmd
 git commit -m "personaliza autor e espaçamento do documento"
 git push origin main
 ```
+
+## Exercício: Clonando um Repositório Existente
+
+No exercício anterior, você criou um repositório **a partir de um template** — o que gerou um novo repositório em sua conta no GitHub. Agora você vai praticar uma operação diferente: **clonar** um repositório existente, criando apenas uma cópia local sem gerar um novo repositório no GitHub.
+
+Essa distinção é importante: usar um template é o fluxo adequado quando você inicia um projeto próprio; clonar é o fluxo adequado quando você deseja obter uma cópia local de um repositório já existente para explorá-lo ou contribuir com ele.
+
+### Tarefa
+
+Clone o template de projeto de pesquisa para o exame de qualificação do mestrado, disponível em:
+
+[https://github.com/washingtonsilva/quarto_exame_qualificacao](https://github.com/washingtonsilva/quarto_exame_qualificacao)
+
+### Passo a passo no RStudio
+
+1. Abra o **RStudio**.
+2. Clique em `Project > New Project > Version Control > Git`.
+3. No campo `Repository URL`, cole a URL do repositório:
+   ```
+   https://github.com/washingtonsilva/quarto_exame_qualificacao.git
+   ```
+4. No campo `Project directory name`, verifique se o nome `quarto_exame_qualificacao` foi preenchido automaticamente.
+5. Escolha a pasta em que o projeto será salvo no seu computador.
+6. Clique em `Create Project`. O **RStudio** clonará o repositório e abrirá o projeto localmente.
+
+### O que fazer após clonar
+
+Explore a estrutura de arquivos e pastas do repositório clonado e compare-a com a estrutura deste template. Observe as semelhanças e diferenças na organização dos arquivos e no cabeçalho YAML do documento principal.
+
+> **Observação:** como este é um clone de um repositório que não pertence à sua conta do GitHub, você não terá permissão para fazer push de alterações. Para criar sua própria cópia editável no momento certo, você utilizará o fluxo com `Use this template`, da mesma forma que fez neste exercício.
