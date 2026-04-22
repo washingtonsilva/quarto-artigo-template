@@ -53,3 +53,6 @@ rsconnect/
 # Rendered outputs
 *.pdf
 **/*.quarto_ipynb
+
+# Contexto para assistente de IA (uso local apenas)
+CLAUDE.md
