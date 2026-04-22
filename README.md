@@ -198,6 +198,38 @@ keep-tex: true
 
 `editor: source` instrui o RStudio a abrir o arquivo no modo de edição de código-fonte. `keep-tex: true` preserva o arquivo `.tex` intermediário gerado durante a compilação, o que ajuda a depurar problemas de formatação no LaTeX.
 
+### Tipos de comentários em um arquivo `.qmd`
+
+Um arquivo `.qmd` pode conter três tipos de comentários, cada um com escopo e sintaxe diferentes. Compreender essa distinção é importante para usar o template corretamente.
+
+**Comentários em prosa — `<!-- comentário -->`**
+
+Utilizados no corpo do texto, fora dos chunks de código. São processados e descartados pelo Pandoc antes de qualquer compilação, de modo que **não aparecem em nenhum formato de saída** — nem no PDF, nem em HTML, nem em DOCX. Esse é o tipo de comentário usado nas seções de Introdução, Resultados e Conclusões do template para deixar orientações ao autor sem que elas apareçam no documento final.
+
+```markdown
+<!-- Este texto não aparecerá no PDF. -->
+```
+
+**Comentários em código R — `#`**
+
+Utilizados dentro dos chunks de código R. São ignorados pelo interpretador R durante a execução e, como o YAML define `echo: false`, também não aparecem no PDF.
+
+```r
+# este comentário não aparece no PDF
+media <- mean(x)  # comentário inline também não aparece
+```
+
+**Comentários LaTeX — `%`**
+
+Utilizados exclusivamente dentro de blocos de código LaTeX bruto (delimitados por ```` ```{=latex} ````). São ignorados pelo compilador LaTeX e não aparecem no PDF.
+
+```latex
+% este comentário só funciona em blocos LaTeX brutos
+\textbf{texto em negrito}
+```
+
+Em resumo: para deixar anotações e instruções invisíveis no corpo do texto de um `.qmd`, use sempre `<!-- -->`.
+
 
 ## Exercício: Inspecionando Alterações com `git diff`
 

@@ -38,7 +38,7 @@ abstract: |
   O uso do sistema Quarto permite uma integração eficiente entre código, 
   texto e resultados, facilitando a criação de documentos reprodutíveis e 
   de alta qualidade. Este modelo serve como uma ferramenta prática para a   
-  adquisição de habilidades essenciais na comunicação de resultados de 
+  aquisição de habilidades essenciais na comunicação de resultados de 
   pesquisa quantitativa. \linebreak \textbf{Palavras-chave:} Sistema de Publicação Quarto, 
   Pesquisa Reprodutível.
 ---
@@ -51,8 +51,7 @@ abstract: |
 # pacotes utilizados
 library(here)         # Permite utilizar caminhos relativos no projeto
 library(tidyverse)    # Metapacote que inclui dplyr, ggplot2, etc.
-library(gtsummary)    # para tabelas formatadas
-library(modelsummary) # para tabelas formatadas
+library(modelsummary) # para tabelas formatadas de modelos de regressão
 library(kableExtra)   # para tabelas formatadas
 library(moments)      # assimetria e curtose
 
@@ -67,9 +66,11 @@ dados_capm_retexc <- readr::read_rds(path_clean)
 
 # Introdução {#sec-intro}
 
+<!-- Os tópicos abaixo orientam o conteúdo da introdução. Substitua-os por parágrafos em prosa contínua. -->
+
 - Explique por que o tema é interessante/importante.
 
-- Declare claramente o objetivo de pesquisa e descreva 
+- Declare claramente o objetivo de pesquisa e descreva
 (em termos não técnicos) como você irá alcançá-lo.
 
 - Descreva o que outros já fizeram e como o seu trabalho se encaixa nisso.
@@ -81,7 +82,7 @@ dados_capm_retexc <- readr::read_rds(path_clean)
 # Revisão da Literatura {#sec-revlit}
 
 O Modelo de Precificação de Ativos de Capital (*Capital Asset Pricing Model*, 
-CAPM) é um dos modelos mais influentens no campo das finanças, fornecendo 
+CAPM) é um dos modelos mais influentes no campo das finanças, fornecendo 
 uma estrutura para entender a relação entre risco e retorno dos ativos 
 financeiros. As origens do CAPM remontam aos trabalhos seminais de William 
 Sharpe, John Lintner, Jan Mossin e Jack Treynor, que contribuíram 
@@ -206,10 +207,10 @@ estatisticas <- data.frame(
     "Assimetria"
   ),
   Ford = estatisticas_ford,
-  `SP500` = estatisticas_sp500  # Nome da coluna temporariamente como "SP500"
+  `SP500` = estatisticas_sp500
 )
 
-# Criara tabela com kableExtra
+# Cria a tabela com kableExtra
 tabela <- estatisticas %>%
   kbl() %>%
   kable_classic(full_width = FALSE) %>% 
@@ -236,19 +237,19 @@ retornos excedentes da Ford e do índice S&P (500)
 ford_dispersao <-
   ggplot(
     dados_capm_retexc,
-    aes(x = retexc_sp500, y = retexc_ford)
+    aes(x = retexc_sp500, y = retexc_ford)  # define os eixos x e y
   ) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
+  geom_point() +                            # adiciona os pontos de dispersão
+  geom_smooth(method = "lm", se = FALSE) +  # adiciona a reta de regressão ajustada (sem intervalo de confiança)
   labs(
     title = NULL,
     caption = "Fonte: Elaborada pelos autores.",
-    x = "Retornos Excedentes do S&P 500 (%)", 
+    x = "Retornos Excedentes do S&P 500 (%)",
     y = "Retornos Excedentes da Ford (%)"
   ) +
-  theme_minimal()
+  theme_minimal()                           # tema com fundo branco e sem bordas
 
-## exibe o gráfico gerado
+# exibe o gráfico gerado
 ford_dispersao
 ```
 
@@ -256,36 +257,50 @@ ford_dispersao
 
 # Resultados e Discussão {#sec-resultados}
 
-A @tbl-resultados contém os resultados da estimação do CAPM para os 
-retornos excedentes da Ford usando a metodologia descrita na 
-@sec-met.
+A @tbl-resultados contém os resultados da estimação do CAPM para os
+retornos excedentes da Ford usando a metodologia descrita na @sec-met.
 
 ```{r}
 #| label: tbl-resultados
 #| tbl-cap: Resultados da Estimação do CAPM
 
+# estima o CAPM como regressão linear simples: excesso de retorno da Ford em função do excesso de retorno do mercado
 capm_ford <- lm(retexc_ford ~ retexc_sp500, data = dados_capm_retexc)
 
-# Criar a tabela de regressão usando modelsummary
-modelsummary(capm_ford, 
-             output = "latex",
+# cria a tabela de resultados da regressão usando modelsummary
+modelsummary(capm_ford,
+             output = "latex",         # formato de saída compatível com a compilação LaTeX do Quarto
              statistic = c("conf.int",
-                           "e.p. = {std.error}", 
-                           "t = {statistic}",
-                           "p = {p.value}"),
-             stars = FALSE, 
-             gof_omit = "DF|Deviance|AIC|BIC|Log.Lik.|RMSE",
-              notes = "Fonte: Elaborada pelos autores."
+                           "e.p. = {std.error}",  # erro padrão
+                           "t = {statistic}",      # estatística t
+                           "p = {p.value}"),       # p-valor
+             stars = FALSE,            # não adiciona asteriscos de significância
+             gof_omit = "DF|Deviance|AIC|BIC|Log.Lik.|RMSE",  # omite medidas de ajuste não relevantes
+             notes = "Fonte: Elaborada pelos autores."
 )
 ```
+
+<!-- Após a tabela, discuta os resultados. O exemplo abaixo ilustra como interpretar e reportar os coeficientes estimados. Substitua os valores pelos obtidos na sua estimação. -->
+
+O coeficiente $\hat{\beta}$ estimado indica a sensibilidade dos retornos
+excedentes da Ford em relação aos retornos excedentes do mercado. Um valor
+$\hat{\beta} > 1$ sugere que o ativo é mais volátil que o mercado, implicando
+maior risco sistemático. O intercepto $\hat{\alpha}$, por sua vez, representa
+o retorno excedente médio do ativo não explicado pelo fator de mercado; sob
+a hipótese nula do CAPM, espera-se que $\alpha = 0$. O coeficiente de
+determinação $R^2$ indica a proporção da variância dos retornos excedentes
+da Ford explicada pelo modelo.
 
 
 
 
 # Conclusões {#sec-conclusoes}
 
-
-
+<!-- Sugestão de estrutura para a seção de conclusões:
+     - Retome o objetivo do artigo e responda se ele foi atingido.
+     - Sintetize os principais resultados e seu significado econômico.
+     - Aponte as limitações do estudo.
+     - Sugira direções para pesquisas futuras. -->
 
 
 # Referências {.unnumbered}
