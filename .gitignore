@@ -1,0 +1,55 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100/
+.Trashes/
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Quarto
+.quarto/
+_freeze/
+_site/
+_book/
+/.cache/
+*_files/
+*.html
+*.tex
+
+# R / RStudio
+*.Rproj
+.Rproj.user/
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+rsconnect/
+
+# LaTeX / BibLaTeX
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.fmt
+*.fot
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.xdv
+
+# Rendered outputs
+*.pdf
+**/*.quarto_ipynb
