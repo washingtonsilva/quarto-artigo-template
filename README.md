@@ -231,11 +231,13 @@ Utilizados exclusivamente dentro de blocos de código LaTeX bruto (delimitados p
 Em resumo: para deixar anotações e instruções invisíveis no corpo do texto de um `.qmd`, use sempre `<!-- -->`.
 
 
-## Exercício: Inspecionando Alterações com `git diff`
+## Exercícios
+
+### Exercício 1 — Inspecionando Alterações com `git diff`
 
 Até agora você praticou os comandos essenciais para sincronizar seu repositório local com o GitHub: `git add`, `git commit` e `git push`. Este exercício introduz o comando `git diff`, que permite inspecionar exatamente o que foi alterado em um arquivo antes de registrar as mudanças com um commit.
 
-### O que é `git diff`?
+#### O que é `git diff`?
 
 O comando `git diff` compara o estado atual dos arquivos no seu diretório de trabalho com o último commit registrado, exibindo linha a linha o que foi removido e o que foi adicionado. Na saída do comando:
 
@@ -245,7 +247,7 @@ O comando `git diff` compara o estado atual dos arquivos no seu diretório de tr
 
 Executar `git diff` antes de `git add` é uma boa prática: permite revisar as mudanças e confirmar que apenas o que se deseja está sendo versionado.
 
-### Tarefa
+#### Tarefa
 
 Abra o arquivo `01_capm.qmd` no RStudio e faça as duas alterações abaixo no cabeçalho YAML:
 
@@ -271,7 +273,7 @@ linestretch: 1.5
 
 Salve o arquivo sem fechar o RStudio.
 
-### Executando `git diff`
+#### Executando `git diff`
 
 No terminal do RStudio (aba **Terminal**), execute:
 
@@ -279,7 +281,7 @@ No terminal do RStudio (aba **Terminal**), execute:
 git diff 01_capm.qmd
 ```
 
-### Interpretando a saída
+#### Interpretando a saída
 
 A saída esperada será semelhante a:
 
@@ -313,7 +315,7 @@ Lendo a saída de cima para baixo:
 - As duas linhas com `+` mostram o que passou a existir após suas edições.
 - As demais linhas, sem prefixo, são o contexto — estão ali apenas para situar as mudanças e não foram tocadas.
 
-### Boas práticas para mensagens de commit em escrita acadêmica
+#### Boas práticas para mensagens de commit em escrita acadêmica
 
 A mensagem de commit é o registro permanente do que foi feito e por quê. Em projetos de desenvolvimento de software, é comum o uso de prefixos como `feat:` ou `fix:` — uma convenção que não se aplica naturalmente ao contexto acadêmico. Para artigos e dissertações, o que importa é que o histórico de commits narre com clareza a evolução do documento.
 
@@ -334,7 +336,7 @@ atualiza tabela de estatísticas descritivas
 completa seção de conclusões
 ```
 
-### Registrando as alterações
+#### Registrando as alterações
 
 Após verificar que a saída do `git diff` corresponde ao esperado, registre as alterações seguindo as boas práticas acima:
 
@@ -344,19 +346,19 @@ git commit -m "personaliza autor e espaçamento do documento"
 git push origin main
 ```
 
-## Exercício: Clonando um Repositório Existente
+### Exercício 2 — Clonando um Repositório Existente
 
 No exercício anterior, você criou um repositório **a partir de um template** — o que gerou um novo repositório em sua conta no GitHub. Agora você vai praticar uma operação diferente: **clonar** um repositório existente, criando apenas uma cópia local sem gerar um novo repositório no GitHub.
 
 Essa distinção é importante: usar um template é o fluxo adequado quando você inicia um projeto próprio; clonar é o fluxo adequado quando você deseja obter uma cópia local de um repositório já existente para explorá-lo ou contribuir com ele.
 
-### Tarefa
+#### Tarefa
 
 Clone o template de projeto de pesquisa para o exame de qualificação do mestrado, disponível em:
 
 [https://github.com/washingtonsilva/quarto_exame_qualificacao](https://github.com/washingtonsilva/quarto_exame_qualificacao)
 
-### Passo a passo no RStudio
+#### Passo a passo no RStudio
 
 1. Abra o **RStudio**.
 2. Clique em `Project > New Project > Version Control > Git`.
@@ -368,8 +370,10 @@ Clone o template de projeto de pesquisa para o exame de qualificação do mestra
 5. Escolha a pasta em que o projeto será salvo no seu computador.
 6. Clique em `Create Project`. O **RStudio** clonará o repositório e abrirá o projeto localmente.
 
-### O que fazer após clonar
+#### O que fazer após clonar
 
-Explore a estrutura de arquivos e pastas do repositório clonado e compare-a com a estrutura deste template. Observe as semelhanças e diferenças na organização dos arquivos e no cabeçalho YAML do documento principal.
+Renderize o documento principal do repositório clonado para verificar se o ambiente está configurado corretamente. Se a renderização concluir sem erros e gerar o PDF, seu ambiente está pronto para ser utilizado quando você iniciar seu projeto de pesquisa.
+
+Em seguida, explore a estrutura de arquivos e pastas do repositório clonado e compare-a com a estrutura deste template. Observe as semelhanças e diferenças na organização dos arquivos e no cabeçalho YAML do documento principal.
 
 > **Observação:** como este é um clone de um repositório que não pertence à sua conta do GitHub, você não terá permissão para fazer push de alterações. Para criar sua própria cópia editável no momento certo, você utilizará o fluxo com `Use this template`, da mesma forma que fez neste exercício.
