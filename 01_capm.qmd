@@ -59,6 +59,9 @@ library(moments)      # assimetria e curtose
 # importa os dados limpos
 path_clean <- here::here("data/clean/dados_capm_clean.rds")
 dados_capm_retexc <- readr::read_rds(path_clean)
+
+# número de casas decimais padrão para todas as tabelas do documento
+n_digits <- 2L
 ```
 
 
@@ -183,25 +186,25 @@ calculados subtraindo a taxa livre de risco dos retornos brutos de cada série.
 #| label: tbl-stat
 #| tbl-cap: Estatísticas Descritivas para Retornos Excedentes
 
-# Calcular estatísticas descritivas com duas casas decimais
+# Calcular estatísticas descritivas (precisão de exibição controlada por n_digits via kbl)
 estatisticas_ford <- c(
-  round(mean(dados_capm_retexc$retexc_ford, na.rm = TRUE), 2),
-  round(median(dados_capm_retexc$retexc_ford, na.rm = TRUE), 2),
-  round(sd(dados_capm_retexc$retexc_ford, na.rm = TRUE), 2),
-  round(min(dados_capm_retexc$retexc_ford, na.rm = TRUE), 2),
-  round(max(dados_capm_retexc$retexc_ford, na.rm = TRUE), 2),
-  round(kurtosis(dados_capm_retexc$retexc_ford, na.rm = TRUE), 2),
-  round(skewness(dados_capm_retexc$retexc_ford, na.rm = TRUE), 2)
+  mean(dados_capm_retexc$retexc_ford),
+  median(dados_capm_retexc$retexc_ford),
+  sd(dados_capm_retexc$retexc_ford),
+  min(dados_capm_retexc$retexc_ford),
+  max(dados_capm_retexc$retexc_ford),
+  kurtosis(dados_capm_retexc$retexc_ford),
+  skewness(dados_capm_retexc$retexc_ford)
 )
 
 estatisticas_sp500 <- c(
-  round(mean(dados_capm_retexc$retexc_sp500, na.rm = TRUE), 2),
-  round(median(dados_capm_retexc$retexc_sp500, na.rm = TRUE), 2),
-  round(sd(dados_capm_retexc$retexc_sp500, na.rm = TRUE), 2),
-  round(min(dados_capm_retexc$retexc_sp500, na.rm = TRUE), 2),
-  round(max(dados_capm_retexc$retexc_sp500, na.rm = TRUE), 2),
-  round(kurtosis(dados_capm_retexc$retexc_sp500, na.rm = TRUE), 2),
-  round(skewness(dados_capm_retexc$retexc_sp500, na.rm = TRUE), 2)
+  mean(dados_capm_retexc$retexc_sp500),
+  median(dados_capm_retexc$retexc_sp500),
+  sd(dados_capm_retexc$retexc_sp500),
+  min(dados_capm_retexc$retexc_sp500),
+  max(dados_capm_retexc$retexc_sp500),
+  kurtosis(dados_capm_retexc$retexc_sp500),
+  skewness(dados_capm_retexc$retexc_sp500)
 )
 
 # Combina os resultados em uma data frame
@@ -223,6 +226,7 @@ estatisticas <- data.frame(
 # Cria a tabela com kableExtra usando estilo booktabs (padrão acadêmico)
 tabela <- estatisticas %>%
   kbl(booktabs = TRUE,                  # linhas horizontais no padrão LaTeX acadêmico
+      digits   = n_digits,              # casas decimais definidas globalmente no chunk setup
       align    = c("l", "r", "r")) %>%  # estatística à esquerda, valores à direita
   kable_styling(full_width = FALSE,
                 position   = "center") %>%
@@ -292,16 +296,33 @@ retornos excedentes da Ford usando a metodologia descrita na @sec-met.
 # estima o CAPM como regressão linear simples: excesso de retorno da Ford em função do excesso de retorno do mercado
 capm_ford <- lm(retexc_ford ~ retexc_sp500, data = dados_capm_retexc)
 
+# mapa de estatísticas de ajuste: apenas R² ajustado
+gof_capm <- data.frame(
+  raw   = c("adj.r.squared"),
+  clean = c("$R^2$-ajustado"),
+  fmt   = c(3)
+)
+
 # cria a tabela de resultados da regressão usando modelsummary
-modelsummary(capm_ford,
-             output = "latex",         # formato de saída compatível com a compilação LaTeX do Quarto
-             statistic = c("conf.int",
-                           "e.p. = {std.error}",  # erro padrão
-                           "t = {statistic}",      # estatística t
-                           "p = {p.value}"),       # p-valor
-             stars = FALSE,            # não adiciona asteriscos de significância
-             gof_omit = "DF|Deviance|AIC|BIC|Log.Lik.|RMSE",  # omite medidas de ajuste não relevantes
-             notes = "Fonte: Elaborada pelos autores."
+modelsummary(
+  list("Ford" = capm_ford),              # nomeia a coluna do modelo
+  output      = "latex",                 # formato compatível com a compilação LaTeX do Quarto
+  escape      = FALSE,                   # permite LaTeX math ($, \hat, etc.) nos rótulos
+  fmt         = n_digits,                # casas decimais definidas globalmente no chunk setup
+  coef_rename = c(
+    "(Intercept)"  = "$\\hat{\\alpha}$",   # alpha: retorno não explicado pelo mercado
+    "retexc_sp500" = "$\\hat{\\beta}$"        # beta: sensibilidade ao fator de mercado
+  ),
+  statistic   = c(
+    "$^{{a}}$[{conf.low};\\, {conf.high}]",  # IC 95% com marcador superescrito ({{}} escapa as chaves do glue)
+    "$^{{b}}${p.value}"                       # p-valor bilateral com marcador superescrito
+  ),
+  stars       = FALSE,                   # não adiciona asteriscos de significância
+  gof_map     = gof_capm,               # estatísticas de ajuste selecionadas
+  notes       = list(
+    "\\footnotesize \\textit{Nota:} a) Intervalo de confiança de 95\\% para o coeficiente. b) valor-p bilateral.",
+    "\\footnotesize Fonte: Elaborada pelos autores."
+  )
 )
 ```
 
