@@ -242,21 +242,34 @@ retornos excedentes da Ford e do índice S&P (500).
 ```{r}
 #| label: fig-dispersao
 #| fig-cap: "Gráfico de Dispersão entre os retornos excedentes da Ford e do índice S&P (500)."
+#| fig-width: 6
+#| fig-height: 4.0
 
 ford_dispersao <-
   ggplot(
     dados_capm_retexc,
     aes(x = retexc_sp500, y = retexc_ford)  # define os eixos x e y
   ) +
-  geom_point() +                            # adiciona os pontos de dispersão
-  geom_smooth(method = "lm", se = FALSE) +  # adiciona a reta de regressão ajustada (sem intervalo de confiança)
+  geom_hline(yintercept = 0, linetype = "dashed", color = "grey60", linewidth = 0.4) +  # linha de referência horizontal em zero
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey60", linewidth = 0.4) +  # linha de referência vertical em zero
+  geom_point(alpha = 0.55, size = 1.8, color = "grey30") +                              # alpha reduz sobreposição; color e size controlam aparência dos pontos
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE,                              # reta ajustada (OLS) com intervalo de confiança de 95%
+              color = "#1565C0", fill = "#1565C0", linewidth = 0.8,
+              show.legend = FALSE) +                                                    # legenda suprimida: desnecessária com uma única série
   labs(
     title = NULL,
     caption = "Fonte: Elaborada pelos autores.",
     x = "Retornos Excedentes do S&P 500 (%)",
     y = "Retornos Excedentes da Ford (%)"
   ) +
-  theme_minimal()                           # tema com fundo branco e sem bordas
+  theme_minimal(base_size = 11) +                                                      # base_size define o tamanho base de todas as fontes do gráfico
+  theme(
+    panel.grid.minor = element_blank(),                          # remove grades menores para reduzir ruído visual
+    axis.title       = element_text(size = 10),                  # tamanho dos títulos dos eixos
+    axis.text        = element_text(size = 9),                   # tamanho dos rótulos numéricos dos eixos
+    plot.caption     = element_text(hjust = 0, size = 8,         # caption alinhada à esquerda (padrão acadêmico em português)
+                                    color = "grey40")
+  )
 
 # exibe o gráfico gerado
 ford_dispersao
