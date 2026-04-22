@@ -45,7 +45,7 @@ A instalação pode levar alguns minutos. Ao final, **reinicie o RStudio** antes
 Os seguintes pacotes R são utilizados no documento e devem ser instalados antes da primeira renderização:
 
 ```r
-install.packages(c("here", "tidyverse", "gtsummary", "modelsummary", "kableExtra", "moments"))
+install.packages(c("here", "tidyverse", "modelsummary", "kableExtra", "moments"))
 ```
 
 ## Como Criar seu Repositório a partir deste Template
@@ -82,6 +82,7 @@ quarto-artigo-template/
 ├── referencias.bib                                # Referências bibliográficas em formato BibTeX
 ├── associacao-brasileira-de-normas-tecnicas-ipea.csl  # Estilo de citação ABNT (via IPEA)
 ├── .gitignore                                     # Arquivos e pastas ignorados pelo Git
+├── README.md                                      # Documentação do repositório
 │
 └── data/
     └── clean/
@@ -100,6 +101,18 @@ quarto-artigo-template/
 
 **`data/clean/dados_capm_clean.rds`** contém os dados já processados que alimentam as análises do documento — retornos excedentes da Ford e do índice S&P 500. O formato `.rds` é nativo do R. Ao adaptar o template para seu próprio artigo, substitua este arquivo pelos seus dados.
 
+### Separação entre projeto analítico e projeto de escrita
+
+Em projetos de pesquisa mais extensos — como uma dissertação de mestrado ou um artigo com pipeline de dados complexo —, recomenda-se fortemente manter **dois repositórios separados**:
+
+**Projeto analítico** — responsável pela aquisição e preparação dos dados, pela estimação dos modelos e pela geração dos resultados finais. Este projeto tende a ser iterativo: modelos são revisados, decisões metodológicas são ajustadas, dados são reprocessados. Quando a análise estiver concluída e os resultados validados, o projeto é finalizado.
+
+**Projeto de escrita** — responsável pela redação do documento final (dissertação, artigo ou relatório). Recebe os resultados do projeto analítico na forma de arquivos prontos para uso: objetos R salvos em `.rds`, figuras em `.png` ou `.pdf`, e tabelas em `.csv`. É sobre este projeto que o Quarto opera para gerar o PDF final.
+
+Essa separação oferece três vantagens concretas: o histórico do Git de cada repositório permanece legível e focado; dados sensíveis ou proprietários ficam restritos ao projeto analítico, que pode ser mantido privado; e o projeto de escrita permanece limpo, sem código de preparação de dados que não é relevante para a comunicação dos resultados.
+
+O ponto crítico dessa abordagem é a **rastreabilidade da transferência de resultados**. Ao copiar arquivos do projeto analítico para a pasta `data/` do projeto de escrita, documente no `README` do projeto de escrita qual versão (commit) do projeto analítico gerou aqueles resultados. Sem esse registro, torna-se difícil, meses depois, reproduzir ou auditar os resultados apresentados no documento.
+
 ## O Cabeçalho YAML do Documento
 
 Todo documento Quarto começa com um cabeçalho YAML, o bloco delimitado por `---` no início do arquivo. Ele concentra as configurações do documento: metadados, formato de saída, comportamento do código e referências bibliográficas. Abaixo, cada opção do cabeçalho de `01_capm.qmd` é explicada.
@@ -110,31 +123,31 @@ Todo documento Quarto começa com um cabeçalho YAML, o bloco delimitado por `--
 title: "Estimação do Modelo CAPM"
 subtitle: "Working Paper"
 author: Seu Nome
-lang: pt-BR
+lang: pt
 ```
 
-`title` e `subtitle` definem o título e o subtítulo que aparecerão na capa do PDF. `author` deve ser substituído pelo seu nome. `lang: pt` informa ao Quarto que o documento está em português brasileiro, o que afeta a hifenização automática do LaTeX e os rótulos gerados automaticamente.
+`title` e `subtitle` definem o título e o subtítulo que aparecerão na capa do PDF. `author` deve ser substituído pelo seu nome. `lang: pt` informa ao Quarto que o documento está em português, o que afeta a hifenização automática do LaTeX e os rótulos gerados automaticamente.
 
 ### Formato de saída
 
 ```yaml
 format:
-    pdf:
-        documentclass: article
-        papersize: a4paper
-        fontsize: 12pt
-        linestretch: 1.0
-        number-sections: true
-        indent: true
-        tbl-pos: 'H'
-        fig-pos: 'H'
-        colorlinks: TRUE
-        linkcolor: blue
-        link-citations: true
-        latex-auto-install: true
-        include-in-header:
-            - text: |
-                    \usepackage{indentfirst}
+  pdf:
+    documentclass: article
+    papersize: a4paper
+    fontsize: 12pt
+    linestretch: 1.0
+    number-sections: true
+    indent: true
+    tbl-pos: 'H'
+    fig-pos: 'H'
+    colorlinks: TRUE
+    linkcolor: blue
+    link-citations: true
+    latex-auto-install: true
+    include-in-header:
+      - text: |
+          \usepackage{indentfirst}
 ```
 
 Todas as opções abaixo de `pdf:` controlam a aparência do documento gerado.
@@ -164,8 +177,8 @@ csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 
 ```yaml
 crossref:
-    fig-prefix: 'Fig.'
-    tbl-prefix: 'Tab.'
+  fig-prefix: 'Fig.'
+  tbl-prefix: 'Tab.'
 ```
 
 Essa configuração define os prefixos usados nas referências cruzadas automáticas a figuras e tabelas. Com isso, ao usar `@fig-dispersao`, o Quarto exibirá algo como "Fig. 1" no PDF.
@@ -174,10 +187,10 @@ Essa configuração define os prefixos usados nas referências cruzadas automát
 
 ```yaml
 execute:
-    echo: false
-    message: false
-    warning: false
-    enabled: true
+  echo: false
+  message: false
+  warning: false
+  enabled: true
 ```
 
 Essas opções controlam o comportamento global dos blocos de código R no documento.
@@ -376,4 +389,4 @@ Renderize o documento principal do repositório clonado para verificar se o ambi
 
 Em seguida, explore a estrutura de arquivos e pastas do repositório clonado e compare-a com a estrutura deste template. Observe as semelhanças e diferenças na organização dos arquivos e no cabeçalho YAML do documento principal.
 
-> **Observação:** como este é um clone de um repositório que não pertence à sua conta do GitHub, você não terá permissão para fazer push de alterações. Para criar sua própria cópia editável no momento certo, você utilizará o fluxo com `Use this template`, da mesma forma que fez neste exercício.
+> **Observação:** como este é um clone de um repositório que não pertence à sua conta do GitHub, você não terá permissão para fazer push de alterações. Para criar sua própria cópia editável no momento certo, você utilizará o fluxo com `Use this template`, da mesma forma que fez ao criar seu repositório a partir deste template.
