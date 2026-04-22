@@ -37,7 +37,7 @@ abstract: |
   Quarto para a criação de um artigo científico em formato PDF. 
   O uso do sistema Quarto permite uma integração eficiente entre código, 
   texto e resultados, facilitando a criação de documentos reprodutíveis e 
-  de alta qualidade. Este modelo serve como uma ferramenta prática para a   
+  de alta qualidade. Este modelo serve como uma ferramenta prática para a
   aquisição de habilidades essenciais na comunicação de resultados de 
   pesquisa quantitativa. \linebreak \textbf{Palavras-chave:} Sistema de Publicação Quarto, 
   Pesquisa Reprodutível.
@@ -156,8 +156,8 @@ equivalente ao do mercado como um todo.
 Para a estimação do modelo de regressão (@eq-modelo), utilizamos dados históricos do 
 retorno do ativo e do mercado. A taxa livre de risco $R_f$ é geralmente 
 representada pelo retorno de títulos do governo de curto prazo. Após a 
-estimação, a significância dos coeficientes $\hat{\alpha_i}$ e 
-$\hat{\beta_i}$ é avaliada por meio de testes t, e a adequação do modelo 
+estimação, a significância dos coeficientes $\hat{\alpha}_i$ e
+$\hat{\beta}_i$ é avaliada por meio de testes t, e a adequação do modelo 
 é verificada através do coeficiente de determinação $R^2$ e da análise 
 dos resíduos.
 
@@ -169,6 +169,15 @@ do mercado, ajustado para o risco.
 
 
 # Dados {#sec-dados}
+
+<!-- Descreva os dados utilizados: fonte, período de coleta e variáveis. O parágrafo abaixo é um exemplo. -->
+
+Para estimar o modelo descrito na @sec-met, utilizamos dados mensais de
+retornos de ações da Ford Motor Company e do índice S&P 500, obtidos do
+Yahoo Finance para o período de janeiro de 2010 a dezembro de 2020. A taxa
+livre de risco é representada pelo retorno mensal dos títulos do Tesouro
+norte-americano de três meses (*T-bill*). Os retornos excedentes foram
+calculados subtraindo a taxa livre de risco dos retornos brutos de cada série.
 
 ```{r}
 #| label: tbl-stat
@@ -227,8 +236,8 @@ Ford e do índice S&P (500).
 
 \pagebreak
 
-A @fig-dispersao exibe um gráfico de dispersão entre os 
-retornos excedentes da Ford e do índice S&P (500)
+A @fig-dispersao exibe um gráfico de dispersão entre os
+retornos excedentes da Ford e do índice S&P (500).
 
 ```{r}
 #| label: fig-dispersao

@@ -129,6 +129,18 @@ lang: pt
 
 `title` e `subtitle` definem o título e o subtítulo que aparecerão na capa do PDF. `author` deve ser substituído pelo seu nome. `lang: pt` informa ao Quarto que o documento está em português, o que afeta a hifenização automática do LaTeX e os rótulos gerados automaticamente.
 
+### Resumo e palavras-chave
+
+```yaml
+abstract: |
+  Texto do resumo.
+  \linebreak \textbf{Palavras-chave:} palavra1, palavra2.
+```
+
+O campo `abstract` recebe o resumo do artigo. O símbolo `|` indica ao YAML que o conteúdo é um bloco de texto com múltiplas linhas, preservando as quebras de linha tal como escritas. Substitua o texto pelo resumo do seu artigo.
+
+As palavras-chave são incluídas ao final do próprio resumo, usando dois comandos LaTeX diretamente no texto: `\linebreak` força uma quebra de linha antes das palavras-chave, e `\textbf{}` as formata em negrito. Essa abordagem é necessária porque a classe `article` do LaTeX não possui um campo nativo para palavras-chave — elas são incorporadas ao resumo por convenção.
+
 ### Formato de saída
 
 ```yaml
