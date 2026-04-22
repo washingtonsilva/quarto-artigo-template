@@ -96,7 +96,7 @@ quarto-artigo-template/
 
 ## O Cabeçalho YAML do Documento
 
-Todo documento Quarto começa com um cabeçalho YAML — o bloco delimitado por `---` no início do arquivo. Ele concentra as configurações do documento: metadados, formato de saída, comportamento do código e referências bibliográficas. Abaixo, cada opção do cabeçalho de `01_capm.qmd` é explicada.
+Todo documento Quarto começa com um cabeçalho YAML, o bloco delimitado por `---` no início do arquivo. Ele concentra as configurações do documento: metadados, formato de saída, comportamento do código e referências bibliográficas. Abaixo, cada opção do cabeçalho de `01_capm.qmd` é explicada.
 
 ### Metadados do documento
 
@@ -104,46 +104,46 @@ Todo documento Quarto começa com um cabeçalho YAML — o bloco delimitado por 
 title: "Estimação do Modelo CAPM"
 subtitle: "Working Paper"
 author: Seu Nome
-lang: pt
+lang: pt-BR
 ```
 
-`title` e `subtitle` definem o título e o subtítulo que aparecerão na capa do PDF. `author` deve ser substituído pelo seu nome. `lang: pt` informa ao Quarto que o documento está em português, o que afeta a hifenização automática do LaTeX e rótulos gerados automaticamente.
+`title` e `subtitle` definem o título e o subtítulo que aparecerão na capa do PDF. `author` deve ser substituído pelo seu nome. `lang: pt` informa ao Quarto que o documento está em português brasileiro, o que afeta a hifenização automática do LaTeX e os rótulos gerados automaticamente.
 
 ### Formato de saída
 
 ```yaml
 format:
-  pdf:
-    documentclass: article
-    papersize: a4paper
-    fontsize: 12pt
-    linestretch: 1.0
-    number-sections: true
-    indent: true
-    tbl-pos: 'H'
-    fig-pos: 'H'
-    colorlinks: TRUE
-    linkcolor: blue
-    link-citations: true
-    latex-auto-install: true
-    include-in-header:
-      - text: |
-          \usepackage{indentfirst}
+    pdf:
+        documentclass: article
+        papersize: a4paper
+        fontsize: 12pt
+        linestretch: 1.0
+        number-sections: true
+        indent: true
+        tbl-pos: 'H'
+        fig-pos: 'H'
+        colorlinks: TRUE
+        linkcolor: blue
+        link-citations: true
+        latex-auto-install: true
+        include-in-header:
+            - text: |
+                    \usepackage{indentfirst}
 ```
 
 Todas as opções abaixo de `pdf:` controlam a aparência do documento gerado.
 
-- `documentclass: article` — define a classe do documento LaTeX. `article` é a classe padrão para artigos científicos.
-- `papersize: a4paper` — define o tamanho do papel como A4.
-- `fontsize: 12pt` — define o tamanho da fonte principal.
-- `linestretch: 1.0` — define o espaçamento entre linhas. Altere para `1.5` ou `2.0` para espaçamento maior, se necessário.
-- `number-sections: true` — numera automaticamente as seções do documento.
-- `indent: true` — ativa o recuo (indentação) no início de cada parágrafo.
-- `tbl-pos: 'H'` e `fig-pos: 'H'` — instruem o LaTeX a posicionar tabelas e figuras exatamente onde aparecem no texto, evitando que sejam deslocadas automaticamente.
-- `colorlinks: TRUE` e `linkcolor: blue` — tornam os hiperlinks clicáveis e os colorem em azul no PDF.
-- `link-citations: true` — transforma cada citação no texto em um hiperlink que leva à entrada correspondente na lista de referências.
-- `latex-auto-install: true` — permite que o Quarto instale automaticamente pacotes LaTeX ausentes durante a renderização.
-- `include-in-header` com `\usepackage{indentfirst}` — carrega o pacote LaTeX que garante o recuo também no primeiro parágrafo de cada seção, comportamento não padrão no LaTeX mas habitual em textos acadêmicos em português.
+- `documentclass: article` define a classe do documento LaTeX. `article` é a classe padrão para artigos científicos.
+- `papersize: a4paper` define o tamanho do papel como A4.
+- `fontsize: 12pt` define o tamanho da fonte principal.
+- `linestretch: 1.0` define o espaçamento entre linhas. Altere para `1.5` ou `2.0` para espaçamento maior, se necessário.
+- `number-sections: true` numera automaticamente as seções do documento.
+- `indent: true` ativa o recuo no início de cada parágrafo.
+- `tbl-pos: 'H'` e `fig-pos: 'H'` instruem o LaTeX a posicionar tabelas e figuras exatamente onde aparecem no texto, evitando deslocamentos automáticos.
+- `colorlinks: TRUE` e `linkcolor: blue` tornam os hiperlinks clicáveis e os colorem em azul no PDF.
+- `link-citations: true` transforma cada citação no texto em um hiperlink que leva à entrada correspondente na lista de referências.
+- `latex-auto-install: true` permite que o Quarto instale automaticamente pacotes LaTeX ausentes durante a renderização.
+- `include-in-header` com `\usepackage{indentfirst}` carrega o pacote LaTeX que garante recuo também no primeiro parágrafo de cada seção.
 
 ### Referências bibliográficas
 
@@ -152,36 +152,36 @@ bibliography: referencias.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ```
 
-`bibliography` aponta para o arquivo BibTeX com as referências. `csl` define o estilo de citação — neste caso, ABNT. Ambos os arquivos já estão incluídos no repositório e não precisam ser alterados, exceto se você quiser adotar um estilo de citação diferente.
+`bibliography` aponta para o arquivo BibTeX com as referências. `csl` define o estilo de citação, neste caso, ABNT. Ambos os arquivos já estão incluídos no repositório e só precisam ser alterados se você quiser adotar outro estilo de citação.
 
 ### Referências cruzadas
 
 ```yaml
 crossref:
-  fig-prefix: 'Fig.'
-  tbl-prefix: 'Tab.'
+    fig-prefix: 'Fig.'
+    tbl-prefix: 'Tab.'
 ```
 
-Define os prefixos utilizados nas referências cruzadas automáticas a figuras e tabelas ao longo do texto. Com esta configuração, ao referenciar uma figura com `@fig-dispersao`, o Quarto a exibirá como "Fig. 1" no PDF.
+Essa configuração define os prefixos usados nas referências cruzadas automáticas a figuras e tabelas. Com isso, ao usar `@fig-dispersao`, o Quarto exibirá algo como "Fig. 1" no PDF.
 
 ### Execução do código R
 
 ```yaml
 execute:
-  echo: false
-  message: false
-  warning: false
-  enabled: true
+    echo: false
+    message: false
+    warning: false
+    enabled: true
 ```
 
-Estas opções controlam o comportamento global dos blocos de código R no documento.
+Essas opções controlam o comportamento global dos blocos de código R no documento.
 
-- `echo: false` — o código não aparece no PDF, apenas seus resultados (tabelas, gráficos).
-- `message: false` — suprime mensagens geradas pelos pacotes R.
-- `warning: false` — suprime avisos (*warnings*) gerados pelo R.
-- `enabled: true` — garante que o código será executado durante a renderização.
+- `echo: false` faz com que o código não apareça no PDF, apenas seus resultados.
+- `message: false` suprime mensagens geradas pelos pacotes R.
+- `warning: false` suprime avisos gerados pelo R.
+- `enabled: true` garante que o código será executado durante a renderização.
 
-Essas opções podem ser sobrescritas individualmente em cada bloco de código usando `#| echo: true`, por exemplo.
+Essas opções podem ser sobrescritas individualmente em cada bloco de código com diretivas como `#| echo: true`.
 
 ### Opções finais
 
@@ -190,4 +190,4 @@ editor: source
 keep-tex: true
 ```
 
-`editor: source` instrui o RStudio a abrir o arquivo sempre no modo de edição de código-fonte, e não no modo visual. `keep-tex: true` faz com que o Quarto preserve o arquivo `.tex` intermediário gerado durante a compilação — útil para depurar problemas de formatação no LaTeX.
+`editor: source` instrui o RStudio a abrir o arquivo no modo de edição de código-fonte. `keep-tex: true` preserva o arquivo `.tex` intermediário gerado durante a compilação, o que ajuda a depurar problemas de formatação no LaTeX.
