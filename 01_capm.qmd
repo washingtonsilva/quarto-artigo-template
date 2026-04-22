@@ -215,16 +215,19 @@ estatisticas <- data.frame(
     "Curtose",
     "Assimetria"
   ),
-  Ford = estatisticas_ford,
-  `SP500` = estatisticas_sp500
+  `Ford (%)` = estatisticas_ford,       # retornos excedentes em percentual
+  `S&P 500 (%)` = estatisticas_sp500,   # retornos excedentes em percentual
+  check.names = FALSE                   # preserva nomes com caracteres especiais
 )
 
-# Cria a tabela com kableExtra
+# Cria a tabela com kableExtra usando estilo booktabs (padrão acadêmico)
 tabela <- estatisticas %>%
-  kbl() %>%
-  kable_classic(full_width = FALSE) %>% 
-  footnote(general_title = "Fonte: ", 
-           general = "Elaborada pelos autores.", 
+  kbl(booktabs = TRUE,                  # linhas horizontais no padrão LaTeX acadêmico
+      align    = c("l", "r", "r")) %>%  # estatística à esquerda, valores à direita
+  kable_styling(full_width = FALSE,
+                position   = "center") %>%
+  footnote(general_title = "Fonte: ",
+           general = "Elaborada pelos autores.",
            footnote_as_chunk = TRUE)
 
 # exibe a tabela
