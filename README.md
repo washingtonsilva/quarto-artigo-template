@@ -11,7 +11,7 @@ O documento de exemplo estima o Modelo de Precificação de Ativos de Capital (C
 Para utilizar este template, os seguintes softwares devem estar instalados e funcionais:
 
 | Software | Finalidade | Status |
-|---|---|---|
+| --- | --- | --- |
 | [R](https://cran.r-project.org/) | Linguagem de programação estatística | Necessário |
 | [RStudio](https://posit.co/download/rstudio-desktop/) | Ambiente de desenvolvimento (IDE) | Necessário |
 | [Quarto](https://quarto.org/docs/get-started/) | Sistema de publicação para geração do PDF | Necessário |
@@ -68,6 +68,7 @@ Este projeto foi publicado no **GitHub** como um **template**. Para criar sua c�
 A renderização criará o arquivo `01_capm.pdf` na pasta do projeto. Esse **PDF** não é versionado pelo **Git**, pois é gerado automaticamente a partir do arquivo-fonte.
 
 > **Observações:**
+>
 > - ao clonar pelo **RStudio**, o próprio **RStudio** criará automaticamente um arquivo de projeto `.Rproj` com o nome do repositório local;
 > - esse arquivo `.Rproj` é apenas local e não faz parte do conteúdo versionado do template.
 
@@ -75,7 +76,7 @@ A renderização criará o arquivo `01_capm.pdf` na pasta do projeto. Esse **PDF
 
 Após clonar o repositório, você encontrará a seguinte estrutura de arquivos e pastas:
 
-```
+```text
 quarto-artigo-template/
 │
 ├── 01_capm.qmd                                    # Documento principal do artigo
@@ -243,7 +244,6 @@ Utilizados exclusivamente dentro de blocos de código LaTeX bruto (delimitados p
 
 Em resumo: para deixar anotações e instruções invisíveis no corpo do texto de um `.qmd`, use sempre `<!-- -->`.
 
-
 ## Exercícios
 
 ### Exercício 1 — Inspecionando Alterações com `git diff`
@@ -260,7 +260,7 @@ O comando `git diff` compara o estado atual dos arquivos no seu diretório de tr
 
 Executar `git diff` antes de `git add` é uma boa prática: permite revisar as mudanças e confirmar que apenas o que se deseja está sendo versionado.
 
-#### Tarefa
+#### Tarefa do Exercício 1
 
 Abra o arquivo `01_capm.qmd` no RStudio e faça as duas alterações abaixo no cabeçalho YAML:
 
@@ -341,7 +341,7 @@ Algumas orientações práticas:
 
 Exemplos de boas mensagens para o contexto acadêmico:
 
-```
+```text
 adiciona rascunho da seção de revisão da literatura
 revisa metodologia: inclui equação do modelo CAPM
 corrige referência de Sharpe (1964) no arquivo .bib
@@ -365,7 +365,7 @@ No exercício anterior, você criou um repositório **a partir de um template** 
 
 Essa distinção é importante: usar um template é o fluxo adequado quando você inicia um projeto próprio; clonar é o fluxo adequado quando você deseja obter uma cópia local de um repositório já existente para explorá-lo ou contribuir com ele.
 
-#### Tarefa
+#### Tarefa do Exercício 2
 
 Clone o template de projeto de pesquisa para o exame de qualificação do mestrado, disponível em:
 
@@ -376,9 +376,11 @@ Clone o template de projeto de pesquisa para o exame de qualificação do mestra
 1. Abra o **RStudio**.
 2. Clique em `Project > New Project > Version Control > Git`.
 3. No campo `Repository URL`, cole a URL do repositório:
+
    ```
    https://github.com/washingtonsilva/quarto_exame_qualificacao.git
    ```
+
 4. No campo `Project directory name`, verifique se o nome `quarto_exame_qualificacao` foi preenchido automaticamente.
 5. Escolha a pasta em que o projeto será salvo no seu computador.
 6. Clique em `Create Project`. O **RStudio** clonará o repositório e abrirá o projeto localmente.
